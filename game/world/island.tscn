@@ -9,11 +9,11 @@ size = Vector3(60, 1, 60)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqsrf"]
 albedo_color = Color(0.5764706, 0.6431373, 0.46666667, 1)
 
-[node name="Island" type="StaticBody3D" unique_id=1991527644]
+[node name="Island" type="StaticBody3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1761891972]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_7lems")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2095475573]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_d60fm")
 surface_material_override/0 = SubResource("StandardMaterial3D_tqsrf")

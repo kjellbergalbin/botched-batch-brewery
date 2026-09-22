@@ -3,12 +3,13 @@
   "mcp": {
     "godot-mcp": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@satelliteoflove/godot-mcp"
-      ],
-      "enabled": true,
+      "command": ["npx", "-y", "@satelliteoflove/godot-mcp@4.1.11"],
+      "environment": {
+        "GODOT_HOST": "127.0.0.1",
+        "GODOT_PORT": "6550",
+        "GODOT_MCP_USAGE_LOG": "0"
+      },
+      "enabled": true
     }
   }
 }

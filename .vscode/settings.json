@@ -1,3 +1,5 @@
 {
-  "godotTools.editorPath.godot4": "c:\\Program Files\\Godot\\Godot_v4.6.1-stable_mono.exe"
+  "dotnet.defaultSolution": "BotchedBatchBrewery.sln",
+  "editor.formatOnSave": true,
+  "files.eol": "\n"
 }
