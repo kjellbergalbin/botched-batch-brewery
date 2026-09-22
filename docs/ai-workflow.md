@@ -46,7 +46,7 @@ Godot documents `--headless`, `--import`, `--build-solutions`, and command-line 
 
 The pinned Godot MCP bridge can inspect editor state, run and freeze the game, inject input, collect structured runtime state, profile, and capture screenshots.[8] It is best used for information that source files cannot prove. Normal C# and small text-resource edits should remain visible in Git and pass the same local/CI gates.
 
-The bridge is pinned to 4.1.11 and configured per project for Claude Code, OpenCode, and VS Code; its server requires Node.js 20 or later.[8][9] The Godot addon and the OpenCode entry are disabled by default.
+The bridge is pinned to 4.1.11 with project configurations for OpenCode and VS Code; its server requires Node.js 20 or later.[8][9] The Godot addon and the OpenCode entry are disabled by default.
 
 Version 4.1.11 has no client authentication. Its unencrypted WebSocket accepts commands that can modify editor state and execute guarded—but not sandboxed—GDScript in the running game. Binding to localhost reduces network exposure but does not authorize clients, so enable the addon only for a trusted local session, never expose port 6550 to an untrusted interface, and disable it afterward.[8][9]
 

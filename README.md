@@ -9,7 +9,7 @@ A 3D brewery-management and night-defense game: brew unusual beer by day, then d
 - Godot **4.7.2 .NET**
 - .NET SDK **8.0.400** (pinned exactly by `global.json`)
 - C# with nullable reference types and warnings-as-errors
-- Godot MCP **4.1.11**, pinned for Claude Code, OpenCode, and VS Code
+- Optional Godot MCP **4.1.11**, with OpenCode and VS Code client configurations
 - Node.js **20 or later** (only required for Godot MCP)
 
 Use the .NET build of Godot, not the standard build.
@@ -68,7 +68,7 @@ New gameplay should be organized by feature (`game/brewing/`, `game/building/`, 
 
 ## AI-assisted development
 
-Read [`AGENTS.md`](AGENTS.md) before editing. Claude Code also loads [`CLAUDE.md`](CLAUDE.md) and the project-scoped [`.mcp.json`](.mcp.json).
+Read [`AGENTS.md`](AGENTS.md) before editing. It is the canonical policy for Codex and other coding agents.
 
 The agent should use source files for normal code changes and, when explicitly enabled, Godot MCP for editor state, scene inspection, deterministic playtesting, runtime state, screenshots, and visual verification.
 
