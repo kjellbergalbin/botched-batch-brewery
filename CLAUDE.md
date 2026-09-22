@@ -12,7 +12,7 @@ Read `AGENTS.md` first; it is the canonical repository policy.
 
 ## Claude-specific guidance
 
-- The project-scoped `.mcp.json` starts Godot MCP 4.1.11.
+- The project-scoped `.mcp.json` starts the Godot MCP 4.1.11 client after normal client approval, but the Godot addon is disabled by default. The user must explicitly enable it in the editor for a trusted local session.
 - Keep write permissions gated. Read/inspect first, then make a bounded change.
 - Prefer MCP read tools and structured runtime state before screenshots.
 - Only one MCP client can own the live Godot editor connection at a time.

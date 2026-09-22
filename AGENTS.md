@@ -9,7 +9,7 @@ Build **Botched Batch Brewery** as small, playable vertical slices. Preserve the
 - Godot 4.7.2 .NET; C# on .NET 8
 - Main scene: `game/world/world.tscn`
 - Project: `BotchedBatchBrewery.csproj`
-- Godot MCP addon/server: 4.1.11, bound to localhost
+- Optional Godot MCP addon/server: 4.1.11, disabled by default
 
 ## Structure
 
@@ -52,7 +52,7 @@ Keep reusable scenes close to the feature that owns them. Use `.tscn` and `.tres
 3. Write tests first for engine-independent rules. Use GdUnit4Net only when a test needs Nodes, scenes, signals, or runtime input.
 4. Implement the smallest change.
 5. Run `dotnet format`, `dotnet build`, Godot headless import, and a headless main-scene smoke test.
-6. Use Godot MCP to run and observe user-visible changes. Capture runtime state before spending tokens on screenshots.
+6. If the user explicitly enabled Godot MCP for the session, use it to run and observe user-visible changes. Capture runtime state before spending tokens on screenshots.
 7. Review the final diff. Never claim a visual or gameplay result was verified from compilation alone.
 
 Run all local gates with:
@@ -70,7 +70,8 @@ Run all local gates with:
 
 ## Security
 
-- Keep the MCP bridge on `127.0.0.1`; its WebSocket is not encrypted and is not a security boundary.
+- Keep Godot MCP disabled except during an explicitly authorized local session. Version 4.1.11 has no client authentication and exposes runtime execution helpers.
+- When enabled, keep the bridge on `127.0.0.1`, connect only trusted clients, and disable it afterward. Loopback binding reduces exposure but is not authorization.
 - Never commit credentials, `.env` files, personal paths, editor caches, or generated builds.
 - Treat downloaded addons and assets as third-party dependencies: pin versions, record provenance, and review updates.
 

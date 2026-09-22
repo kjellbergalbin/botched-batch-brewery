@@ -9,7 +9,7 @@
         "GODOT_PORT": "6550",
         "GODOT_MCP_USAGE_LOG": "0"
       },
-      "enabled": true
+      "enabled": false
     }
   }
 }

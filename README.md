@@ -2,14 +2,15 @@
 
 A 3D brewery-management and night-defense game: brew unusual beer by day, then defend the abandoned island brewery from sewer creatures attracted to failed batches.
 
-> **Status:** early playable prototype. Movement, camera, blockout geometry, lighting, and an AI-editor bridge are in place. Brewing, customers, building, combat, and progression are not implemented yet.
+> **Status:** early playable prototype. Movement, camera, blockout geometry, lighting, and an optional AI-editor bridge are in place. Brewing, customers, building, combat, and progression are not implemented yet.
 
 ## Toolchain
 
 - Godot **4.7.2 .NET**
-- .NET SDK **8.0** (`global.json` allows the latest 8.0 feature band)
+- .NET SDK **8.0.400** (pinned exactly by `global.json`)
 - C# with nullable reference types and warnings-as-errors
 - Godot MCP **4.1.11**, pinned for Claude Code, OpenCode, and VS Code
+- Node.js **20 or later** (only required for Godot MCP)
 
 Use the .NET build of Godot, not the standard build.
 
@@ -69,7 +70,11 @@ New gameplay should be organized by feature (`game/brewing/`, `game/building/`, 
 
 Read [`AGENTS.md`](AGENTS.md) before editing. Claude Code also loads [`CLAUDE.md`](CLAUDE.md) and the project-scoped [`.mcp.json`](.mcp.json).
 
-The agent should use source files for normal code changes and Godot MCP for editor state, scene inspection, deterministic playtesting, runtime state, screenshots, and visual verification. MCP listens on `127.0.0.1:6550`; do not expose it to an untrusted network.
+The agent should use source files for normal code changes and, when explicitly enabled, Godot MCP for editor state, scene inspection, deterministic playtesting, runtime state, screenshots, and visual verification.
+
+The addon is **disabled by default** because version 4.1.11 accepts unauthenticated WebSocket commands, including runtime script execution. Loopback binding limits network exposure but is not authorization: software running on the same machine and potentially browser-originated WebSocket clients can still reach it.
+
+Enable `Godot MCP` in **Project > Project Settings > Plugins** only for a trusted local development session, keep its bind mode on `127.0.0.1`, and disable the plugin when finished. Enabling the plugin adds `MCPGameBridge` as an autoload and changes `project.godot`. To restore the checked-in disabled state, disable the plugin and remove the `MCPGameBridge` autoload—or revert those changes to `project.godot`—before committing. OpenCode's checked-in MCP entry is also disabled by default and must be enabled deliberately.
 
 ## Current controls
 

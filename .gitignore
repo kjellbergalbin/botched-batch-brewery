@@ -24,6 +24,7 @@ export.cfg
 !.vscode/settings.json
 !.vscode/tasks.json
 .claude/settings.local.json
+.hermes/
 
 # Secrets and local environment
 .env

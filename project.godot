@@ -15,10 +15,6 @@ run/main_scene="res://game/world/world.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-MCPGameBridge="res://addons/godot_mcp/game_bridge/mcp_game_bridge.gd"
-
 [display]
 
 window/size/viewport_width=1280
@@ -33,7 +29,7 @@ project/assembly_name="BotchedBatchBrewery"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
+enabled=PackedStringArray()
 
 [godot_mcp]
 
