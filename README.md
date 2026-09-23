@@ -82,6 +82,8 @@ Enable `Godot MCP` in **Project > Project Settings > Plugins** only for a truste
 |---|---|---|
 | Move | WASD / arrow keys | Left stick |
 | Jump | Space | South/A button |
+| Add ingredient / collect batch | E (near the brew kettle) | — |
+| Add strange additive | Q (near the brew kettle) | — |
 
 ## License
 

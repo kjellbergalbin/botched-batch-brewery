@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ca65kue8eod4f" path="res://game/world/island.tscn" id="1_island"]
 [ext_resource type="PackedScene" uid="uid://rh3er0xa12p5" path="res://game/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://bujrj78yk3eug" path="res://game/world/props/box.tscn" id="3_box"]
+[ext_resource type="PackedScene" path="res://game/brewing/brewing_station.tscn" id="4_brewing_station"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
 sky_top_color = Color(0.055, 0.09, 0.14, 1)
@@ -44,6 +45,9 @@ fog_sky_affect = 0.65
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector3(2.34, 1, 4.766)
+
+[node name="BrewingStation" parent="." instance=ExtResource("4_brewing_station")]
+position = Vector3(2, 0, 1.5)
 
 [node name="PrototypeBlocks" type="Node3D" parent="."]
 
