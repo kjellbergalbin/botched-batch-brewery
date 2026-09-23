@@ -5,7 +5,8 @@
 [sub_resource type="BoxMesh" id="BoxMesh_d60fm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqsrf"]
-albedo_color = Color(0.8861787, 0.9192094, 0.8370773, 1)
+albedo_color = Color(0.31, 0.13, 0.045, 1)
+roughness = 0.86
 
 [node name="Box" type="StaticBody3D"]
 

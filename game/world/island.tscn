@@ -7,7 +7,8 @@ size = Vector3(60, 2, 60)
 size = Vector3(60, 1, 60)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqsrf"]
-albedo_color = Color(0.5764706, 0.6431373, 0.46666667, 1)
+albedo_color = Color(0.16, 0.24, 0.13, 1)
+roughness = 0.92
 
 [node name="Island" type="StaticBody3D"]
 
