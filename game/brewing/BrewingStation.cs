@@ -10,22 +10,24 @@ public partial class BrewingStation : Node3D
     [Export(PropertyHint.Range, "1.0,30.0,0.5")]
     public float BrewDurationSeconds { get; set; } = 6.0f;
 
+    [Export(PropertyHint.Range, "1.0,6.0,0.1")]
+    public float InteractionRadius { get; set; } = 2.5f;
+
     private readonly BrewBatch _batch = new();
-    private Area3D? _interactionArea;
     private Label3D? _statusLabel;
     private MeshInstance3D? _kettleMesh;
     private OmniLight3D? _kettleLight;
     private StandardMaterial3D? _kettleMaterial;
+    private Node3D? _player;
     private bool _playerInRange;
 
     public override void _Ready()
     {
-        _interactionArea = GetNodeOrNull<Area3D>("InteractionArea");
         _statusLabel = GetNodeOrNull<Label3D>("StatusLabel");
         _kettleMesh = GetNodeOrNull<MeshInstance3D>("Kettle");
         _kettleLight = GetNodeOrNull<OmniLight3D>("KettleLight");
 
-        if (_interactionArea is null || _statusLabel is null || _kettleMesh is null || _kettleLight is null)
+        if (_statusLabel is null || _kettleMesh is null || _kettleLight is null)
         {
             GD.PushError($"{Name}: Brewing station scene is missing a required child node.");
             SetProcess(false);
@@ -40,13 +42,14 @@ public partial class BrewingStation : Node3D
             return;
         }
 
-        _interactionArea.BodyEntered += OnBodyEntered;
-        _interactionArea.BodyExited += OnBodyExited;
+        _player = ResolvePlayer();
         ApplyPresentation();
     }
 
     public override void _Process(double delta)
     {
+        UpdatePlayerProximity();
+
         if (_batch.Advance((float)delta))
         {
             ApplyPresentation();
@@ -71,22 +74,26 @@ public partial class BrewingStation : Node3D
         }
     }
 
-    private void OnBodyEntered(Node3D body)
+    private void UpdatePlayerProximity()
     {
-        if (body.IsInGroup("player"))
+        _player ??= ResolvePlayer();
+        if (_player is null)
         {
-            _playerInRange = true;
+            return;
+        }
+
+        bool wasInRange = _playerInRange;
+        _playerInRange = GlobalPosition.DistanceSquaredTo(_player.GlobalPosition) <= InteractionRadius * InteractionRadius;
+        if (_playerInRange != wasInRange)
+        {
             ApplyPresentation();
         }
     }
 
-    private void OnBodyExited(Node3D body)
+    private Node3D? ResolvePlayer()
     {
-        if (body.IsInGroup("player"))
-        {
-            _playerInRange = false;
-            ApplyPresentation();
-        }
+        return GetTree().GetFirstNodeInGroup("player") as Node3D
+            ?? GetTree().Root.FindChild("Player", true, false) as Node3D;
     }
 
     private void ApplyPresentation()
