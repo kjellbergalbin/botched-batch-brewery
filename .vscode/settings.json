@@ -1,5 +1,6 @@
 {
   "dotnet.defaultSolution": "BotchedBatchBrewery.sln",
   "editor.formatOnSave": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "godotTools.editorPath.godot4": "c:\\Program Files\\Godot\\Godot_v4.7.2-stable_mono_win64\\Godot_v4.7.2-stable_mono_win64.exe"
 }
