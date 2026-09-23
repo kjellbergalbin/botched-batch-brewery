@@ -7,7 +7,7 @@ A 3D brewery-management and night-defense game: brew unusual beer by day, then d
 ## Toolchain
 
 - Godot **4.7.2 .NET**
-- .NET SDK **8.0.400** (pinned exactly by `global.json`)
+- .NET SDK **8.0.425** (pinned to the installed .NET 8 LTS feature band; later patches in this band are accepted)
 - C# with nullable reference types and warnings-as-errors
 - Optional Godot MCP **4.1.11**, with OpenCode and VS Code client configurations
 - Node.js **20 or later** (only required for Godot MCP)

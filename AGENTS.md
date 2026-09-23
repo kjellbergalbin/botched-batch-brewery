@@ -66,7 +66,8 @@ Run all local gates with:
 - One writer per worktree. Parallel agents may research or review, but must not edit the same checkout.
 - Use a dedicated branch/worktree for each vertical slice.
 - Keep commits small and conventional: `feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`.
-- Do not push, merge, rewrite history, add dependencies, or update vendored addons without explicit task scope.
+- Do not merge, rewrite history, add dependencies, or update vendored addons without explicit task scope.
+- Push a dedicated feature branch when the user asks for a testable Godot build; never push directly to `main` or merge a pull request without explicit approval.
 
 ## Security
 

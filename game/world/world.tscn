@@ -4,22 +4,39 @@
 [ext_resource type="PackedScene" uid="uid://rh3er0xa12p5" path="res://game/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://bujrj78yk3eug" path="res://game/world/props/box.tscn" id="3_box"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
+sky_top_color = Color(0.055, 0.09, 0.14, 1)
+sky_horizon_color = Color(0.54, 0.3, 0.2, 1)
+ground_bottom_color = Color(0.035, 0.05, 0.055, 1)
+ground_horizon_color = Color(0.22, 0.16, 0.12, 1)
+sun_angle_max = 18.0
+sun_curve = 0.08
+sun_energy_multiplier = 0.45
+
+[sub_resource type="Sky" id="Sky_world"]
+sky_material = SubResource("ProceduralSkyMaterial_world")
+
 [sub_resource type="Environment" id="Environment_world"]
-background_mode = 1
-background_color = Color(0.4, 0.65, 0.9, 1)
-ambient_light_source = 2
-ambient_light_color = Color(0.5, 0.6, 0.8, 1)
-ambient_light_energy = 1.2
+background_mode = 2
+sky = SubResource("Sky_world")
+background_energy_multiplier = 0.45
+ambient_light_source = 3
+ambient_light_energy = 0.48
 tonemap_mode = 3
-tonemap_exposure = 1.2
+tonemap_exposure = 0.78
 ssao_enabled = true
 ssao_radius = 0.5
-ssao_intensity = 1.5
+ssao_intensity = 0.8
 glow_enabled = true
-glow_intensity = 0.6
-glow_strength = 0.8
-glow_bloom = 0.3
-glow_hdr_threshold = 1.5
+glow_intensity = 0.35
+glow_strength = 0.55
+glow_bloom = 0.15
+glow_hdr_threshold = 2.0
+fog_enabled = true
+fog_light_color = Color(0.3, 0.18, 0.13, 1)
+fog_light_energy = 0.65
+fog_density = 0.004
+fog_sky_affect = 0.65
 
 [node name="World" type="Node3D"]
 
@@ -47,8 +64,8 @@ position = Vector3(-1, 0.745, -4)
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-45, -45, 0)
-light_color = Color(1, 0.92, 0.75, 1)
-light_energy = 3.0
+light_color = Color(1, 0.62, 0.36, 1)
+light_energy = 1.35
 shadow_enabled = true
 shadow_bias = 0.1
 
@@ -57,5 +74,12 @@ environment = SubResource("Environment_world")
 
 [node name="FillLight" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-45, 135, 0)
-light_color = Color(0.6, 0.7, 1, 1)
-light_energy = 0.8
+light_color = Color(0.3, 0.43, 0.62, 1)
+light_energy = 0.2
+
+[node name="BreweryGlow" type="OmniLight3D" parent="."]
+position = Vector3(2, 3.5, 3)
+light_color = Color(1, 0.44, 0.16, 1)
+light_energy = 2.0
+omni_range = 10.0
+shadow_enabled = true
