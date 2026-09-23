@@ -1,65 +1,44 @@
-############################################################
-# GODOT
-############################################################
-
-# Godot 4 import & cache folders
-.import/
+# Godot-generated cache and imports
 .godot/
+.import/
 
-# Export templates (optional if committed intentionally)
-export.cfg
-export_presets.cfg
-
-# Mono/.NET build artifacts
+# .NET build output and user-local state
 bin/
 obj/
 .mono/
-
-# Generated C# solution/project files (Godot regenerates them)
-*.csproj
-*.sln
+.vs/
+.idea/
 *.user
 *.tmp
 
-# Crash logs
-*.log
+# Export output and local export configuration
+builds/
+exports/
+export.cfg
 
-############################################################
-# DOTNET
-############################################################
-
-# Rider / VS
-.vs/
-.idea/
-
-# NuGet
-packages/
-*.nupkg
-
-############################################################
-# VSCODE
-############################################################
-
+# Local editor settings; keep shared project files below
 .vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/mcp.json
 !.vscode/settings.json
 !.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.claude/settings.local.json
+.hermes/
 
-############################################################
-# OS
-############################################################
+# Secrets and local environment
+.env
+.env.*
+!.env.example
 
-# Windows
+# OS and editor noise
+.DS_Store
 Thumbs.db
 Desktop.ini
-
-# macOS
-.DS_Store
-
-############################################################
-# Misc
-############################################################
-
 *.swp
 *.bak
+*.log
+
+# Local test results
+TestResults/
+coverage/

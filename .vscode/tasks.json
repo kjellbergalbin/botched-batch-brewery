@@ -2,13 +2,32 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "build",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "BotchedBatchBrewery.sln", "--nologo"],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "verify",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/verify.sh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Run Godot",
       "type": "process",
       "command": "${env:GODOT4}",
-      "args": [
-        "--path",
-        "${workspaceFolder}"
-      ]
+      "args": ["--path", "${workspaceFolder}"],
+      "dependsOn": "build",
+      "problemMatcher": []
     }
   ]
 }

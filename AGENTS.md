@@ -1,233 +1,80 @@
-# AGENTS.md — Botched Batch Brewery
+# Agent instructions
 
-Guidance for agentic coding assistants working in this repository.
+## Mission
 
----
+Build **Botched Batch Brewery** as small, playable vertical slices. Preserve the core loop: daytime brewing and sales fund nighttime defense against sewer creatures attracted to failed beer.
 
-## Project Overview
+## Stack
 
-**Botched Batch Brewery** is a 3D game built with **Godot 4.6** and **C# (.NET)**.
+- Godot 4.7.2 .NET; C# on .NET 8
+- Main scene: `game/world/world.tscn`
+- Project: `BotchedBatchBrewery.csproj`
+- Optional Godot MCP addon/server: 4.1.11, disabled by default
 
-- Engine: Godot 4.6, Forward Plus renderer, Jolt Physics (3D), Direct3D 12 on Windows
-- Language: C# via Godot's .NET integration
-- IDE: VS Code with the coreclr / C# Dev Kit extension
+## Structure
 
-The `.godot/` directory is gitignored and should never be committed.
+Organize production files by feature:
 
----
-
-## Directory Structure
-
-```
-botched-batch-brewery/
-├── Prefabs/
-│   ├── Enviroment/
-│   │   ├── box.tscn
-│   │   └── island.tscn
-│   └── Gameplay/
-│       └── player.tscn
-├── Scenes/
-│   └── Island.tscn
-├── Scripts/
-│   └── Gameplay/
-│       ├── Player.cs
-│       ├── Player.cs.uid
-│       ├── FollowCamera.cs
-│       └── FollowCamera.cs.uid
-├── .editorconfig
-├── .vscode/
-├── project.godot
-└── AGENTS.md
+```text
+game/<feature>/
+  FeatureController.cs
+  feature_scene.tscn
+  resources/
+  ui/
 ```
 
-New scripts should live under `Scripts/` in a subfolder that mirrors their gameplay domain
-(e.g. `Scripts/Gameplay/`, `Scripts/UI/`, `Scripts/Systems/`).
+Existing features are `game/player/` and `game/world/`. Add future work under `game/brewing/`, `game/building/`, `game/customers/`, `game/combat/`, and `game/progression/` only when those slices exist. Do not create empty architecture.
 
----
+Keep reusable scenes close to the feature that owns them. Use `.tscn` and `.tres`, never binary `.scn` resources. Commit `.csproj`, `.sln`, and `.uid` files; never commit `.godot/`, `bin/`, or `obj/`.
 
-## Build & Run Commands
+## C# rules
 
-### Prerequisites
+- Follow the Godot C# style guide and `.editorconfig`.
+- Godot node scripts are `partial` and use PascalCase filenames matching the class.
+- Use nullable reference types; warnings are build failures.
+- Export designer-tunable values instead of burying balancing numbers in code.
+- Use gameplay-specific input actions, never built-in `ui_*` actions for player mechanics.
+- Keep engine-independent game rules in plain C# classes. Node scripts adapt input, scenes, audio, animation, and physics to those rules.
+- Prefer signals/events and explicit exported references over global service locators.
+- Add an Autoload only for truly global lifecycle state; do not use Autoloads as a default dependency container.
 
-Set the `GODOT4` environment variable to the path of your Godot 4 executable before running
-any CLI commands:
+## Scene rules
+
+- A scene owns one coherent concept and should run in isolation when practical.
+- Instance feature scenes instead of duplicating node trees.
+- Do not hand-edit opaque or binary-encoded resource data. Use Godot MCP/editor operations for GridMap, TileMap, animation, and visual transforms.
+- Text scene edits are acceptable for small, reviewable changes, but must pass import and runtime verification.
+
+## Required workflow
+
+1. Inspect the relevant scene tree, scripts, project settings, and current git diff.
+2. For non-trivial work, state acceptance criteria and split the feature into one vertical slice.
+3. Write tests first for engine-independent rules. Use GdUnit4Net only when a test needs Nodes, scenes, signals, or runtime input.
+4. Implement the smallest change.
+5. Run `dotnet format`, `dotnet build`, Godot headless import, and a headless main-scene smoke test.
+6. If the user explicitly enabled Godot MCP for the session, use it to run and observe user-visible changes. Capture runtime state before spending tokens on screenshots.
+7. Review the final diff. Never claim a visual or gameplay result was verified from compilation alone.
+
+Run all local gates with:
 
 ```bash
-export GODOT4="/path/to/godot4"   # Linux / macOS
-$env:GODOT4 = "C:\Godot\Godot.exe" # PowerShell
+./scripts/verify.sh
 ```
 
-### Open the Editor
+## Agent coordination
 
-```bash
-$GODOT4 --path .
-```
+- One writer per worktree. Parallel agents may research or review, but must not edit the same checkout.
+- Use a dedicated branch/worktree for each vertical slice.
+- Keep commits small and conventional: `feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`.
+- Do not push, merge, rewrite history, add dependencies, or update vendored addons without explicit task scope.
 
-### Build (compile C# without launching)
+## Security
 
-```bash
-dotnet build
-```
+- Keep Godot MCP disabled except during an explicitly authorized local session. Version 4.1.11 has no client authentication and exposes runtime execution helpers.
+- When enabled, keep the bridge on `127.0.0.1`, connect only trusted clients, and disable it afterward. Loopback binding reduces exposure but is not authorization.
+- Never commit credentials, `.env` files, personal paths, editor caches, or generated builds.
+- Treat downloaded addons and assets as third-party dependencies: pin versions, record provenance, and review updates.
 
-### Run in Headless Mode (CI / scripted)
+## Product guardrails
 
-```bash
-$GODOT4 --path . --headless
-```
-
-### VS Code
-
-Press **F5** to build and launch via the `Play` launch configuration (`.vscode/launch.json`).
-This requires the `GODOT4` environment variable to be set in your shell environment.
-
----
-
-## Testing
-
-**There is currently no test suite.** No test framework (GUT, xUnit, NUnit) has been
-configured yet.
-
-When tests are added:
-
-- Prefer **xUnit** or **NUnit** for C# unit tests (engine-independent logic).
-- Prefer **GUT** (Godot Unit Test plugin) for integration/scene tests that require the
-  Godot runtime.
-- Place test files in a top-level `Tests/` directory mirroring the `Scripts/` structure.
-
----
-
-## Linting & Formatting
-
-### Prettier (for non-C# files: JSON, YAML, Markdown, etc.)
-
-```bash
-npx prettier --write .       # format all supported files
-npx prettier --check .       # check without writing
-```
-
-### C# Formatting
-
-The project includes an `.editorconfig` with C# formatting rules. Run:
-
-```bash
-dotnet format
-```
-
----
-
-## C# Code Style
-
-### File Layout
-
-1. `using` directives — Godot namespaces first, then System, then third-party
-2. XML documentation summary (recommended for public APIs)
-3. Class declaration
-
-```csharp
-using Godot;
-using System;
-
-/// <summary>
-/// Brief description of what this class does.
-/// </summary>
-public partial class MyNode : Node3D
-{
-}
-```
-
-### Class Declarations
-
-All Godot node scripts **must** be declared `partial`. This is required by Godot's C#
-source generator for signal and property bindings.
-
-```csharp
-public partial class Player : CharacterBody3D { }
-```
-
-### Naming Conventions
-
-| Element | Convention | Example |
-|---|---|---|
-| Classes | PascalCase | `Player`, `FollowCamera` |
-| Public fields / constants | PascalCase | `Speed`, `JumpVelocity` |
-| Private fields | `_camelCase` | `_mesh`, `_coyoteTimer` |
-| Local variables | camelCase | `inputDir`, `velocity` |
-| Methods | PascalCase | `ApplyGravity()` |
-| Godot lifecycle overrides | Underscore prefix | `_Ready()`, `_PhysicsProcess()` |
-| Signals | PascalCase, past-tense | `BrewingCompleted` |
-
-### Braces & Indentation
-
-- **Allman style** — opening brace on its own line.
-- **Tabs** for indentation (matches `.editorconfig`).
-
-### Types
-
-- Prefer **explicit types** over `var` for clarity, especially with Godot types.
-- Use Godot math types (`Vector3`, `Vector2`, `Mathf`, `Transform3D`) rather than
-  System.Numerics equivalents.
-- Use `float` (not `double`) for spatial values to match Godot's internal precision.
-- `_PhysicsProcess` and `_Process` receive `double delta`; cast to `float` when passing
-  into Godot math operations.
-
-### Constants
-
-Declare magic numbers as `const` fields with a descriptive name:
-
-```csharp
-public const float Speed = 6.0f;
-public const float JumpVelocity = 5.5f;
-```
-
-### XML Documentation
-
-Use XML documentation for public classes and members:
-
-```csharp
-/// <summary>
-/// Seconds the player can still jump after walking off a ledge.
-/// </summary>
-public const float CoyoteTime = 0.12f;
-```
-
-### Error Handling
-
-- Use `GD.PrintErr()` / `GD.PushError()` for engine-level errors (visible in Godot output).
-- Use standard C# exceptions for logic errors in non-Godot code paths.
-- Validate `[Export]` node references in `_Ready()` with an early `null` check and
-  `GD.PushError()` before proceeding.
-
----
-
-## Input Mappings
-
-Defined in `project.godot`:
-
-| Action | Keys | Gamepad |
-|--------|------|---------|
-| `ui_left` | A, Left Arrow | D-pad Left, Left Stick Left |
-| `ui_right` | D, Right Arrow | D-pad Right, Right Stick Right |
-| `ui_up` | W, Up Arrow | D-pad Up, Left Stick Up |
-| `ui_down` | S, Down Arrow | D-pad Down, Left Stick Down |
-| `ui_accept` | Space | A button |
-
----
-
-## Scene & Asset Conventions
-
-- Scene files use the `.tscn` (text) format — never binary `.scn`.
-- Prefabs (reusable sub-scenes) go in `Prefabs/` with a subdirectory matching their domain.
-- Top-level playable scenes go in `Scenes/`.
-- One C# script per scene/node — name the script the same as the root node.
-- `.uid` sidecar files are generated by Godot and **must be committed** alongside their
-  corresponding `.cs` files.
-
----
-
-## Environment Notes
-
-- The `GODOT4` environment variable must point to the Godot 4 executable for VS Code
-  debugging and headless CLI runs.
-- The `.godot/` cache directory is gitignored; never commit its contents.
-- EOL is enforced as **LF** by `.gitattributes` — do not commit CRLF line endings.
-- All text files must use **UTF-8** encoding (enforced by `.editorconfig`).
+Prioritize a fun proof of the day/night loop over broad systems. Avoid procedural-content frameworks, generic service layers, multiplayer, online accounts, and premature save migrations until the core loop is playable.

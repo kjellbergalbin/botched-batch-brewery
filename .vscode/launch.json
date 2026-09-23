@@ -7,7 +7,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       "program": "${env:GODOT4}",
-      "args": [],
+      "args": ["--path", "${workspaceFolder}"],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false
     }
