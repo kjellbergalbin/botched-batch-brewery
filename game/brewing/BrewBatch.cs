@@ -20,11 +20,20 @@ public enum BrewOutcome
 /// </summary>
 public sealed class BrewBatch
 {
-    public BrewPhase Phase { get; private set; } = BrewPhase.Empty;
+    public BrewPhase Phase
+    {
+        get; private set;
+    } = BrewPhase.Empty;
 
-    public BrewOutcome? Outcome { get; private set; }
+    public BrewOutcome? Outcome
+    {
+        get; private set;
+    }
 
-    public float RemainingSeconds { get; private set; }
+    public float RemainingSeconds
+    {
+        get; private set;
+    }
 
     public bool AddStandardIngredient(float brewDurationSeconds)
     {
